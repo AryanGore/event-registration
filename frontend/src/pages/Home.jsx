@@ -17,6 +17,8 @@ const Home = () => {
       if (user) {
         const regRes = await axios.get('/api/events/user/registrations');
         setRegistrations(regRes.data.map(r => r.event._id || r.event));
+      } else {
+        setRegistrations([]);
       }
     } catch (err) {
       console.error(err);

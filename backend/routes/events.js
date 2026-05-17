@@ -41,6 +41,11 @@ router.post('/:id/register', auth, async (req, res) => {
   try {
     const eventId = req.params.id;
     const userId = req.user.id;
+    const { name, email, phone, numberOfAttendees } = req.body;
+
+    if (!name || !email) {
+      return res.status(400).json({ msg: 'Name and Email are required' });
+    }
 
     const event = await Event.findById(eventId);
     if (!event) {
@@ -61,6 +66,10 @@ router.post('/:id/register', auth, async (req, res) => {
 
     const registration = new Registration({
       user: userId,
+      name,
+      email,
+      phone,
+      numberOfAttendees: numberOfAttendees || 1,
       event: eventId
     });
 
